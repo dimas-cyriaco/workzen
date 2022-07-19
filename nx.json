@@ -1,26 +1,12 @@
 {
-  "extends": "@nrwl/workspace/presets/core.json",
-  "npmScope": "workzen",
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "cli": {
     "defaultCollection": "@nrwl/workspace"
   },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/nx-cloud",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
-        "accessToken": "OTViNDhiZmEtZWI0Mi00MDdmLThiMWUtMDI0OWE1NGZlYjM2fHJlYWQtd3JpdGU="
-      }
-    }
-  },
+  "extends": "@nrwl/workspace/presets/core.json",
+  "npmScope": "workzen",
   "targetDependencies": {
     "dev": [
       {
@@ -34,5 +20,14 @@
         "projects": "self"
       }
     ]
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "OTViNDhiZmEtZWI0Mi00MDdmLThiMWUtMDI0OWE1NGZlYjM2fHJlYWQtd3JpdGU="
+      }
+    }
   }
 }

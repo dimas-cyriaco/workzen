@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "@workzen/taskzen",
+  "description": "",
+  "license": "",
+  "scripts": {
+    "build": "npx remix build",
+    "dev": "npx remix dev",
+    "postinstall": "npx remix setup node",
+    "start": "npx remix-serve build"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false
+}

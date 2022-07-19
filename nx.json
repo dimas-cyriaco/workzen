@@ -20,5 +20,19 @@
         "accessToken": "OTViNDhiZmEtZWI0Mi00MDdmLThiMWUtMDI0OWE1NGZlYjM2fHJlYWQtd3JpdGU="
       }
     }
+  },
+  "targetDependencies": {
+    "dev": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ],
+    "start": [
+      {
+        "target": "build",
+        "projects": "self"
+      }
+    ]
   }
 }

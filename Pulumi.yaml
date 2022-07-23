@@ -1,0 +1,4 @@
+name: Workzen
+runtime: nodejs
+description: Global infrastructure
+main: infra/

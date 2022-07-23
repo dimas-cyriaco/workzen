@@ -3,9 +3,13 @@
     "defaultBase": "main"
   },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nxext/vite"
   },
   "extends": "@nrwl/workspace/presets/core.json",
+  "workspaceLayout": {
+    "apps": "apps",
+    "libs": "libs"
+  },
   "npmScope": "workzen",
   "targetDependencies": {
     "dev": [
@@ -29,5 +33,16 @@
         "accessToken": "OTViNDhiZmEtZWI0Mi00MDdmLThiMWUtMDI0OWE1NGZlYjM2fHJlYWQtd3JpdGU="
       }
     }
-  }
+  },
+  "generators": {
+    "@nxext/vite": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "homepage"
 }

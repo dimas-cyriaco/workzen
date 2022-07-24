@@ -19,7 +19,7 @@ jobs:
           run_install: |
             - recursive: false
               args: [--frozen-lockfile, --strict-peer-dependencies]
-            - args: [--global, gulp, prettier, typescript]
+            - args: [--global, prettier, typescript]
 
       - run: pnpm nx workspace-lint
       - run: pnpm nx format:check

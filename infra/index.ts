@@ -1,7 +1,7 @@
 import * as pulumi from '@pulumi/pulumi';
 
-import GithubDeployer from './components/GithubDeployer'
-import PublicWebBucket from './components/PublicWebBucket'
+import GithubDeployer from './components/GithubDeployer';
+import PublicWebBucket from './components/PublicWebBucket';
 
 const stack = pulumi.getStack();
 const isProd = stack === 'production';

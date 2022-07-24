@@ -1,0 +1,19 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: homepage-artifact
+          path: ./artifacts/homepage
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: ./artifact/

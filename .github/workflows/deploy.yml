@@ -2,7 +2,8 @@ name: Deploy
 on:
   workflow_run:
     workflows: [Run Tests]
-    types: [completed]
+    types:
+      - completed
 
 jobs:
   deploy:
@@ -12,8 +13,8 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: homepage-artifact
-          path: ~/artifacts/homepage
+          path: ./artifacts/homepage
 
       - name: Display structure of downloaded files
         run: ls -R
-        working-directory: ~/artifact/
+        working-directory: ./artifact/

@@ -1,22 +1,19 @@
 name: Deploy
 on:
-  # push:
-  #   branches:
-  #     - main
   workflow_run:
     workflows: [Run Tests]
     types:
       - completed
 
 jobs:
-  main:
+  on-success:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
         with:
           name: homepage-artifact
           path: ~/artifacts/homepage
-
+    
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: ~/artifact/

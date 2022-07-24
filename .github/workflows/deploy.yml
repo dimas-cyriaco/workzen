@@ -13,7 +13,7 @@ jobs:
         with:
           name: homepage-artifact
           path: ~/artifacts/homepage
-    
+
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: ~/artifact/

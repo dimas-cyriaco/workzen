@@ -13,10 +13,16 @@ jobs:
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v2
-      - run: npm ci
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.5.2
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+            - args: [--global, gulp, prettier, typescript]
 
-      - run: npx nx workspace-lint
-      - run: npx nx format:check
-      - run: npx nx affected --target=lint --parallel=3
-      - run: npx nx affected --target=test --parallel=3 --ci --code-coverage
-      - run: npx nx affected --target=build --parallel=3
+      - run: pnpm nx workspace-lint
+      - run: pnpm nx format:check
+      - run: pnpm nx affected --target=lint --parallel=3
+      - run: pnpm nx affected --target=test --parallel=3 --ci --code-coverage
+      - run: pnpm nx affected --target=build --parallel=3

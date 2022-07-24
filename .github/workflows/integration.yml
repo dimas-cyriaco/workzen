@@ -50,6 +50,7 @@ jobs:
       - run: pnpm nx affected --target=build --parallel=3 --prod
       
       - uses: actions/upload-artifact@v3
+        name: Upload Homepage artifact
         with:
           name: homepage-artifact
-            path: dist/apps/homepage/
+          path: dist/apps/homepage/

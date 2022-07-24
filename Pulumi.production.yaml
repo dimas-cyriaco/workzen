@@ -1,0 +1,6 @@
+config:
+  aws-native:region: sa-east-1
+  aws:region: sa-east-1
+  github:owner: dimas-cyriaco
+  github:token:
+    secure: AAABAHAD44+IT1NDwCJlcHhdEEw1RqYHdKRL+fph9z0XF63edmg0hF6zr/U6KHqhrWcz7aoIcEHsileeIfk/jPmLaQVJgiXD

@@ -1,9 +1,16 @@
-import * as pulumi from "@pulumi/pulumi";
-import * as aws from "@pulumi/aws";
-import * as awsx from "@pulumi/awsx";
+import * as pulumi from '@pulumi/pulumi';
 
-// Create an AWS resource (S3 Bucket)
-const bucket = new aws.s3.Bucket("my-bucket");
+import GithubDeployer from './components/GithubDeployer'
+import PublicWebBucket from './components/PublicWebBucket'
 
-// Export the name of the bucket
-export const bucketName = bucket.id;
+const stack = pulumi.getStack();
+const isProd = stack === 'production';
+
+const homepageBucket = new PublicWebBucket('homepage-bucket');
+
+if (isProd) {
+  new GithubDeployer('github-deploy-user');
+}
+
+export const bucketName = homepageBucket.id;
+export const homepageUrl = homepageBucket.websiteURL;

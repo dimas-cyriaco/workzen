@@ -10,7 +10,9 @@ specifiers:
   '@nrwl/workspace': ^14.0.2
   '@nxext/vite': ^14.0.1
   '@pulumi/aws': ^5.0.0
+  '@pulumi/aws-native': ^0.19.0
   '@pulumi/awsx': ^0.40.0
+  '@pulumi/github': ^4.14.0
   '@pulumi/pulumi': ^3.0.0
   '@remix-run/dev': ^1.0.6
   '@remix-run/react': ^1.0.6
@@ -49,7 +51,9 @@ devDependencies:
   '@nrwl/workspace': 14.4.3_qu5crnp4d4ddhi4xv7yryz3nvu
   '@nxext/vite': 14.0.1_7sc6n65blpodocwqdnh6ftmwtq
   '@pulumi/aws': 5.10.0
+  '@pulumi/aws-native': 0.19.0
   '@pulumi/awsx': 0.40.0_4hiunhhnxpir27l4r5hcrusmo4
+  '@pulumi/github': 4.14.0
   '@pulumi/pulumi': 3.36.0
   '@remix-run/dev': 1.6.5_oztcqjspdbj4ifc7kf4jpsfkcy
   '@types/node': 16.11.7
@@ -2638,6 +2642,22 @@ packages:
       webpack: 5.73.0
     dev: true
 
+  /@pulumi/aws-native/0.19.0:
+    resolution: {integrity: sha512-bKVYdISnEF6CZV0PqbXHRJUQNAR1BgOMFLaTnOhrCMZknGr0mhd1RBjoSYm6bZTsGXKBISUXYdJbmVa6L815LQ==}
+    requiresBuild: true
+    dependencies:
+      '@pulumi/pulumi': 3.36.0
+      '@types/glob': 5.0.37
+      '@types/node-fetch': 2.6.2
+      '@types/tmp': 0.0.33
+      glob: 7.2.3
+      node-fetch: 2.6.7
+      shell-quote: 1.7.3
+      tmp: 0.0.33
+    transitivePeerDependencies:
+      - encoding
+    dev: true
+
   /@pulumi/aws/5.10.0:
     resolution: {integrity: sha512-5z5MTc8mKkVFp0qFceXz4HsoZ9Rs7BPeczmgYsIwhHTWGsuELtgxhzrh/Z51x9xLxgff+oED4BRYs48t67Z9gw==}
     requiresBuild: true
@@ -2669,6 +2689,13 @@ packages:
     dependencies:
       '@pulumi/pulumi': 3.36.0
       semver: 5.7.1
+    dev: true
+
+  /@pulumi/github/4.14.0:
+    resolution: {integrity: sha512-Ua72zXSfKS6q26JexxNKOKq5y6dEypOcMVYEToIH3Q6JcZJ3qcOg6jhRufgxEfSCUG1wYahOHFj0VufgnWf0kQ==}
+    requiresBuild: true
+    dependencies:
+      '@pulumi/pulumi': 3.36.0
     dev: true
 
   /@pulumi/pulumi/3.36.0:
@@ -3298,6 +3325,13 @@ packages:
       '@types/node': 16.11.7
     dev: true
 
+  /@types/glob/5.0.37:
+    resolution: {integrity: sha512-ATA/xrS7CZ3A2WCPVY4eKdNpybq56zqlTirnHhhyOztZM/lPxJzusOBI3BsaXbu6FrUluqzvMlI4sZ6BDYMlMg==}
+    dependencies:
+      '@types/minimatch': 3.0.5
+      '@types/node': 16.11.7
+    dev: true
+
   /@types/glob/7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
@@ -3383,6 +3417,13 @@ packages:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
     dev: true
 
+  /@types/node-fetch/2.6.2:
+    resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
+    dependencies:
+      '@types/node': 16.11.7
+      form-data: 3.0.1
+    dev: true
+
   /@types/node/16.11.7:
     resolution: {integrity: sha512-QB5D2sqfSjCmTuWcBWyJ+/44bcjO7VbjSbOE0ucoVbAsSNQc4Lt6QkgkVXkTDwkL4z/beecZNDvVX15D4P8Jbw==}
     dev: true
@@ -3466,6 +3507,10 @@ packages:
 
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
+    dev: true
+
+  /@types/tmp/0.0.33:
+    resolution: {integrity: sha512-gVC1InwyVrO326wbBZw+AO3u2vRXz/iRWq9jYhpG4W8LXyIgDv3ZmcLQ5Q4Gs+gFMyqx+viFoFT+l3p61QFCmQ==}
     dev: true
 
   /@types/unist/2.0.6:
@@ -11535,6 +11580,10 @@ packages:
   /shebang-regex/3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
+    dev: true
+
+  /shell-quote/1.7.3:
+    resolution: {integrity: sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw==}
     dev: true
 
   /side-channel/1.0.4:

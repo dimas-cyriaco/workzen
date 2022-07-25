@@ -12,5 +12,6 @@
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true
   },
-  "files": ["index.ts", "components/**/*"]
+  "files": ["index.ts"],
+  "include": ["components/*.ts"]
 }

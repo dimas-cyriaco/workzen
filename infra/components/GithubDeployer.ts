@@ -23,11 +23,23 @@ class GithubDeployer extends ComponentResource {
     });
 
     new github.ActionsSecret(
-      'deployer-action-secret',
+      'deployer-secret-access-key',
       {
         repository: 'workzen',
-        secretName: 'AWS_DEPLOYER_SECRET_KEY',
+        secretName: 'AWS_SECRET_ACCESS_KEY',
         encryptedValue: githubDeployAccessKey.encryptedSecret,
+      },
+      {
+        parent: this,
+      }
+    );
+
+    new github.ActionsSecret(
+      'deployer-access-key-id',
+      {
+        repository: 'workzen',
+        secretName: 'AWS_ACCESS_KEY_ID',
+        encryptedValue: githubDeployAccessKey.id,
       },
       {
         parent: this,

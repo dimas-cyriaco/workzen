@@ -8,9 +8,12 @@ import GithubDeployer from './components/GithubDeployer';
 const stack = pulumi.getStack();
 const isProd = stack === 'production';
 
-const homepageBucket = new ApplicationDeploymentBucket('homepage-deployment-bucket', {
-  applicationName: `homepage_${stack}`,
-})
+const homepageBucket = new ApplicationDeploymentBucket(
+  'homepage-deployment-bucket',
+  {
+    applicationName: `homepage_${stack}`,
+  }
+);
 
 if (isProd) {
   new GithubDeployer('github-deploy-user');

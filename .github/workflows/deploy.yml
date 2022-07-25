@@ -43,7 +43,7 @@ jobs:
       - uses: nrwl/nx-set-shas@v2
 
       - run: pnpm nx affected --target=build --parallel=3 --prod
-      
+
     deploy_homepage:
       # TODO: só rodar se for afetado.
       - if: ${{ npx nx-ignore workzen }}

@@ -35,7 +35,7 @@ class GithubDeployer extends ComponentResource {
     );
 
     new github.ActionsSecret(
-      'deployer-access-ke-id',
+      'deployer-access-key-id',
       {
         repository: 'workzen',
         secretName: 'AWS_ACCESS_KEY_ID',

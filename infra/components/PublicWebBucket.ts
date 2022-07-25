@@ -8,8 +8,9 @@ import {
 } from '@pulumi/pulumi';
 
 class PublicWebBucket extends ComponentResource {
-  id: Output<string>;
   arn: Output<string>;
+  bucketName: Output<string | undefined>;
+  id: Output<string>;
   websiteURL: Output<string>;
 
   constructor(name: string, opts: ComponentResourceOptions = {}) {
@@ -52,14 +53,16 @@ class PublicWebBucket extends ComponentResource {
       }
     );
 
-    this.id = bucket.id;
     this.arn = bucket.arn;
+    this.bucketName = bucket.bucketName;
+    this.id = bucket.id;
     this.websiteURL = bucket.websiteURL;
 
     this.registerOutputs({
-      id: bucket.id,
-      arn: bucket.arn,
-      websiteURL: bucket.websiteURL,
+      arn: this.arn,
+      bucketName: this.bucketName,
+      id: this.id,
+      websiteURL: this.websiteURL,
     });
   }
 }

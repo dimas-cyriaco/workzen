@@ -1,12 +1,16 @@
 import * as pulumi from '@pulumi/pulumi';
+import ApplicationDeploymentBucket from './components/application-deployment-bucket';
 
 import GithubDeployer from './components/GithubDeployer';
-import PublicWebBucket from './components/PublicWebBucket';
+
+// TODO: verificar se stack é 'production' e não está sendo rodado do CI.
 
 const stack = pulumi.getStack();
 const isProd = stack === 'production';
 
-const homepageBucket = new PublicWebBucket('homepage-bucket');
+const homepageBucket = new ApplicationDeploymentBucket('homepage-deployment-bucket', {
+  applicationName: `homepage_${stack}`,
+})
 
 if (isProd) {
   new GithubDeployer('github-deploy-user');

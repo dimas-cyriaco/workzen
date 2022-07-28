@@ -46,7 +46,7 @@ jobs:
 
   deploy_homepage:
     runs-on: ubuntu-latest
-    if: ${{ npx nx-ignore workzen }}
+    # if: ${{ npx nx-ignore workzen }}
     steps:
       # - run: pnpm nx affected --target=deploy --parallel=3
       - uses: jakejarvis/s3-sync-action@master

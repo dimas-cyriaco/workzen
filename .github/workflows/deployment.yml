@@ -42,8 +42,9 @@ jobs:
 
       - uses: nrwl/nx-set-shas@v2
 
-      - run: pnpm nx affected --target=build --parallel=3 --prod
       # if: ${{ npx nx-ignore workzen }}
+      - run: pnpm nx build homepage --prod
+
       - uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete

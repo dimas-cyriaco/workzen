@@ -1,10 +1,18 @@
-import { iam } from '@pulumi/aws';
-import { ComponentResource, ComponentResourceOptions } from '@pulumi/pulumi';
+import { iam, secretsmanager } from '@pulumi/aws';
+import {
+  all,
+  ComponentResource,
+  ComponentResourceOptions,
+  Output,
+} from '@pulumi/pulumi';
 import * as github from '@pulumi/github';
 
 import S3UploaderUser from './S3UploaderUser';
 
 class GithubDeployer extends ComponentResource {
+  secretAccessKey: Output<string>;
+  accessKeyId: Output<string>;
+
   constructor(name: string, opts: ComponentResourceOptions = {}) {
     super('workzen:user:GithubDeployer', name, {}, opts);
 
@@ -12,11 +20,23 @@ class GithubDeployer extends ComponentResource {
       parent: this,
     });
 
-    const githubDeployAccessKey = new iam.AccessKey(
+    const accessKey = new iam.AccessKey(
       'github-deploy-access-key',
       { user: githubDeployUser.name },
       { parent: this }
     );
+
+    const secret = new secretsmanager.Secret(name);
+    new secretsmanager.SecretVersion(name, {
+      secretId: secret.id,
+      secretString: all([accessKey.id, accessKey.secret])
+        .apply(([accessKeyId, secretAccessKey]) =>
+          JSON.stringify({
+            accessKeyId,
+            secretAccessKey,
+          })
+        ),
+    });
 
     github.getActionsPublicKey({
       repository: 'workzen',
@@ -27,7 +47,7 @@ class GithubDeployer extends ComponentResource {
       {
         repository: 'workzen',
         secretName: 'AWS_SECRET_ACCESS_KEY',
-        encryptedValue: githubDeployAccessKey.encryptedSecret,
+        encryptedValue: accessKey.secret,
       },
       {
         parent: this,
@@ -39,12 +59,20 @@ class GithubDeployer extends ComponentResource {
       {
         repository: 'workzen',
         secretName: 'AWS_ACCESS_KEY_ID',
-        encryptedValue: githubDeployAccessKey.id,
+        encryptedValue: accessKey.id,
       },
       {
         parent: this,
       }
     );
+
+    this.secretAccessKey = accessKey.encryptedSecret;
+    this.accessKeyId = accessKey.id;
+
+    this.registerOutputs({
+      secretAccessKey: this.secretAccessKey,
+      accessKeyId: this.accessKeyId,
+    });
   }
 }
 

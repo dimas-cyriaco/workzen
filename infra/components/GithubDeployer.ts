@@ -77,4 +77,3 @@ class GithubDeployer extends ComponentResource {
 }
 
 export default GithubDeployer
-

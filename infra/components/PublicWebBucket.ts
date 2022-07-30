@@ -1,32 +1,46 @@
-import * as aws from '@pulumi/aws';
-import * as awsNative from '@pulumi/aws-native';
+import * as aws from '@pulumi/aws'
+import { Bucket } from '@pulumi/aws/s3'
+import * as pulumi from '@pulumi/pulumi'
 import {
   ComponentResource,
   ComponentResourceOptions,
   Input,
   Output,
-} from '@pulumi/pulumi';
+} from '@pulumi/pulumi'
+import * as fs from 'fs'
+import * as mime from 'mime'
+import * as path from 'path'
+
+interface PublicWebBucketParams {
+  sourceFolder?: string
+}
 
 class PublicWebBucket extends ComponentResource {
-  arn: Output<string>;
-  bucketName: Output<string | undefined>;
-  id: Output<string>;
-  websiteURL: Output<string>;
+  arn: Output<string>
+  bucket: Bucket
+  bucketName: Output<string | undefined>
+  id: Output<string>
+  websiteEndpoint: Output<string>
 
-  constructor(name: string, opts: ComponentResourceOptions = {}) {
-    super('workzen:bucket:PublicWebBucket', name, {}, opts);
+  constructor(
+    name: string,
+    params: PublicWebBucketParams = {},
+    opts: ComponentResourceOptions = {}
+  ) {
+    super('workzen:bucket:PublicWebBucket', name, {}, opts)
 
-    const bucket = new awsNative.s3.Bucket(
+    const bucket = new aws.s3.Bucket(
       'homepage-bucket',
       {
-        websiteConfiguration: {
+        acl: 'public-read',
+        website: {
           indexDocument: 'index.html',
         },
       },
       {
         parent: this,
       }
-    );
+    )
 
     new aws.s3.BucketPolicy(
       'homepage-bucket-police',
@@ -43,28 +57,63 @@ class PublicWebBucket extends ComponentResource {
                 Resource: [`${bucketArn}/*`],
               },
             ],
-          };
+          }
 
-          return output;
+          return output
         }),
       },
       {
         parent: this,
       }
-    );
+    )
 
-    this.arn = bucket.arn;
-    this.bucketName = bucket.bucketName;
-    this.id = bucket.id;
-    this.websiteURL = bucket.websiteURL;
+    if (params.sourceFolder) {
+      uploadDirectory(params.sourceFolder, bucket)
+    }
+
+    this.arn = bucket.arn
+    this.bucket = bucket
+    this.bucketName = bucket.bucket
+    this.id = bucket.id
+    this.websiteEndpoint = bucket.websiteEndpoint
 
     this.registerOutputs({
       arn: this.arn,
+      bucket: this.bucket,
       bucketName: this.bucketName,
       id: this.id,
-      websiteURL: this.websiteURL,
-    });
+      websiteEndpoint: this.websiteEndpoint,
+    })
   }
 }
 
-export default PublicWebBucket;
+const uploadDirectory = (directoryPath: string, bucket: Bucket) => {
+  forEachFile(directoryPath, (filePath: string) => {
+    const relativePath = path.relative(directoryPath, filePath)
+
+    let contentType = mime.getType(filePath) || 'application/x-directory'
+
+    new aws.s3.BucketObject(relativePath, {
+      acl: 'public-read',
+      bucket,
+      key: relativePath,
+      source: new pulumi.asset.FileAsset(filePath),
+      contentType,
+    })
+  })
+}
+
+const forEachFile = (currentDirPath: string, callback: Function) => {
+  fs.readdirSync(currentDirPath).forEach(name => {
+    var filePath = path.join(currentDirPath, name)
+    var stat = fs.statSync(filePath)
+
+    if (stat.isFile()) {
+      callback(filePath)
+    } else if (stat.isDirectory()) {
+      forEachFile(filePath, callback)
+    }
+  })
+}
+
+export default PublicWebBucket

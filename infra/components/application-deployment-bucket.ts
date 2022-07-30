@@ -1,39 +1,42 @@
+import { Bucket } from '@pulumi/aws/s3'
+import * as github from '@pulumi/github'
 import {
   ComponentResource,
   ComponentResourceOptions,
-  interpolate,
   Output,
-} from '@pulumi/pulumi';
-import * as github from '@pulumi/github';
+  interpolate,
+} from '@pulumi/pulumi'
 
-import PublicWebBucket from './PublicWebBucket';
-import { log } from 'console';
+import PublicWebBucket from './PublicWebBucket'
 
 interface ApplicationDeploymentBucketOptions {
-  applicationName: string;
+  applicationName: string
+  sourceFolder?: string
 }
 
 class ApplicationDeploymentBucket extends ComponentResource {
-  id: Output<string>;
-  websiteURL: Output<string>;
+  bucket: Bucket
+  id: Output<string>
+  websiteEndpoint: Output<string>
 
   constructor(
     name: string,
     bucketOptions: ApplicationDeploymentBucketOptions,
     opts: ComponentResourceOptions = {}
   ) {
-    super('workzen:bucket:ApplicationDeployment', name, {}, opts);
+    super('workzen:bucket:ApplicationDeployment', name, {}, opts)
 
     const applicationBucket = new PublicWebBucket(
       `${bucketOptions.applicationName.toLowerCase()}-deployment-bucket`,
+      { sourceFolder: bucketOptions.sourceFolder },
       {
         parent: this,
       }
-    );
+    )
 
     github.getActionsPublicKey({
       repository: 'workzen',
-    });
+    })
 
     new github.ActionsSecret(
       'application-deployment-action-secret',
@@ -45,16 +48,18 @@ class ApplicationDeploymentBucket extends ComponentResource {
       {
         parent: this,
       }
-    );
+    )
 
-    this.id = applicationBucket.id;
-    this.websiteURL = applicationBucket.websiteURL;
+    this.bucket = applicationBucket.bucket
+    this.id = applicationBucket.id
+    this.websiteEndpoint = applicationBucket.websiteEndpoint
 
     this.registerOutputs({
+      bucket: this.bucket,
       id: this.id,
-      websiteURL: this.websiteURL,
-    });
+      websiteEndpoint: this.websiteEndpoint,
+    })
   }
 }
 
-export default ApplicationDeploymentBucket;
+export default ApplicationDeploymentBucket

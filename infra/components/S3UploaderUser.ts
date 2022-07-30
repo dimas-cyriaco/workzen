@@ -1,15 +1,15 @@
-import { iam } from '@pulumi/aws';
+import { iam } from '@pulumi/aws'
 import {
   ComponentResource,
   ComponentResourceOptions,
   Output,
-} from '@pulumi/pulumi';
+} from '@pulumi/pulumi'
 
 class S3UploaderUser extends ComponentResource {
-  name: Output<string>;
+  name: Output<string>
 
   constructor(name: string, opts: ComponentResourceOptions = {}) {
-    super('workzen:user:S3UploaderUser', name, {}, opts);
+    super('workzen:user:S3UploaderUser', name, {}, opts)
 
     const user = new iam.User(
       's3-uploader-user',
@@ -17,7 +17,7 @@ class S3UploaderUser extends ComponentResource {
       {
         parent: this,
       }
-    );
+    )
 
     new iam.UserPolicy(
       's3-uploader-user-policy',
@@ -37,14 +37,14 @@ class S3UploaderUser extends ComponentResource {
       {
         parent: this,
       }
-    );
+    )
 
-    this.name = user.name;
+    this.name = user.name
 
     this.registerOutputs({
       name: user.name,
-    });
+    })
   }
 }
 
-export default S3UploaderUser;
+export default S3UploaderUser

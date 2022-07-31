@@ -5,7 +5,8 @@
   "scripts": {
     "postinstall": "remix setup node",
     "test": "nx affected --target=test",
-    "test:all": "nx run-many --target=test --all"
+    "test:all": "nx run-many --target=test --all",
+    "prepare": "husky install"
   },
   "private": true,
   "devDependencies": {
@@ -37,7 +38,8 @@
     "prettier": "^2.5.1",
     "typescript": "~4.6.2",
     "vite": "2.9.9",
-    "vite-plugin-eslint": "1.3.0"
+    "vite-plugin-eslint": "1.3.0",
+    "husky": "^8.0.0"
   },
   "dependencies": {
     "@remix-run/react": "^1.0.6",

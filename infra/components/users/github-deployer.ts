@@ -1,6 +1,6 @@
 import { iam } from '@pulumi/aws'
-import * as github from '@pulumi/github'
 import { Output, getStack } from '@pulumi/pulumi'
+import * as github from '@pulumi/github'
 
 import S3Uploader from './s3-uploader'
 

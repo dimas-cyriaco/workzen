@@ -10,14 +10,13 @@ import ApplicationDeploymentBucket from './components/buckets/application-deploy
 // config.require("github:token");
 
 const stack = pulumi.getStack()
-const isProd = stack === 'production'
+// const isProd = stack === 'production'
 
 const homepageBucket = new ApplicationDeploymentBucket({
   name: 'homepage-deployment-bucket',
   applicationName: `homepage_${stack}`,
   sourceFolder: '../dist/apps/homepage',
 })
-
 
 github.getActionsPublicKey({
   repository: 'workzen',

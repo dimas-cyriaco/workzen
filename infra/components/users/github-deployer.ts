@@ -1,6 +1,6 @@
-import { iam, secretsmanager } from '@pulumi/aws'
+import { iam } from '@pulumi/aws'
 import * as github from '@pulumi/github'
-import { Config, Output, all } from '@pulumi/pulumi'
+import { Output, getStack } from '@pulumi/pulumi'
 
 import S3Uploader from './s3-uploader'
 
@@ -43,11 +43,13 @@ class GithubDeployer extends S3Uploader {
       repository: 'workzen',
     })
 
+    const stack = getStack()
+
     new github.ActionsSecret(
       'deployer-secret-access-key',
       {
         repository: 'workzen',
-        secretName: 'AWS_SECRET_ACCESS_KEY',
+        secretName: `${stack.toUpperCase()}_AWS_SECRET_ACCESS_KEY`,
         encryptedValue: accessKey.secret,
       },
       {
@@ -59,7 +61,7 @@ class GithubDeployer extends S3Uploader {
       'deployer-access-key-id',
       {
         repository: 'workzen',
-        secretName: 'AWS_ACCESS_KEY_ID',
+        secretName: `${stack.toUpperCase()}_AWS_ACCESS_KEY_ID`,
         encryptedValue: accessKey.id,
       },
       {
@@ -67,7 +69,7 @@ class GithubDeployer extends S3Uploader {
       }
     )
 
-    this.secretAccessKey = accessKey.encryptedSecret
+    this.secretAccessKey = accessKey.secret
     this.accessKeyId = accessKey.id
 
     this.registerOutputs({

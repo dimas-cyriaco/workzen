@@ -10,7 +10,7 @@ import GithubDeployer from './components/users/github-deployer'
 // config.require("github:token");
 
 const stack = pulumi.getStack()
-const isProd = stack === 'production'
+// const isProd = stack === 'production'
 
 const homepageBucket = new ApplicationDeploymentBucket({
   name: 'homepage-deployment-bucket',
@@ -22,15 +22,17 @@ github.getActionsPublicKey({
   repository: 'workzen',
 })
 
-new github.ActionsSecret('aws-region', {
+new github.ActionsSecret(`${stack}-aws-region`, {
   repository: 'workzen',
-  secretName: 'AWS_REGION',
+  secretName: `${stack.toUpperCase()}_AWS_REGION`,
   plaintextValue: 'sa-east-1',
 })
 
-if (isProd) {
-  new GithubDeployer({ name: 'github-deploy-user' })
-}
+// if (isProd) {
+const githubDeployer = new GithubDeployer({ name: 'github-deploy-user' })
+// }
 
 export const bucketName = homepageBucket.id
 export const homepageUrl = homepageBucket.websiteEndpoint
+export const accessKeyId = githubDeployer.accessKeyId
+export const secretAccessKey = githubDeployer.secretAccessKey

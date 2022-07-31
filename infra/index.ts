@@ -1,8 +1,8 @@
-import * as github from '@pulumi/github'
 import * as pulumi from '@pulumi/pulumi'
+import * as github from '@pulumi/github'
 
-import ApplicationDeploymentBucket from './components/buckets/application-deployment'
 import GithubDeployer from './components/users/github-deployer'
+import ApplicationDeploymentBucket from './components/buckets/application-deployment'
 
 // TODO: verificar se stack é 'production' e não está sendo rodado do CI.
 
@@ -18,19 +18,25 @@ const homepageBucket = new ApplicationDeploymentBucket({
   sourceFolder: '../dist/apps/homepage',
 })
 
+
 github.getActionsPublicKey({
   repository: 'workzen',
 })
 
-new github.ActionsSecret('aws-region', {
-  repository: 'workzen',
-  secretName: 'AWS_REGION',
-  plaintextValue: 'sa-east-1',
-})
+new github.ActionsSecret(
+  `${stack}-aws-region`,
+  {
+    repository: 'workzen',
+    secretName: `${stack.toUpperCase()}_AWS_REGION`,
+    plaintextValue: 'sa-east-1',
+  }
+)
 
-if (isProd) {
-  new GithubDeployer({ name: 'github-deploy-user' })
-}
+// if (isProd) {
+const githubDeployer = new GithubDeployer({ name: 'github-deploy-user' })
+// }
 
 export const bucketName = homepageBucket.id
 export const homepageUrl = homepageBucket.websiteEndpoint
+export const accessKeyId = githubDeployer.accessKeyId
+export const secretAccessKey = githubDeployer.secretAccessKey

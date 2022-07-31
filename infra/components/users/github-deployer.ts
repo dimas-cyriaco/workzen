@@ -1,11 +1,11 @@
 import { iam } from '@pulumi/aws'
-import * as github from '@pulumi/github'
 import { Output, getStack } from '@pulumi/pulumi'
+import * as github from '@pulumi/github'
 
 import S3Uploader from './s3-uploader'
 
 interface GithubDeployerParams {
-  name: string
+  name: string,
 }
 
 class GithubDeployer extends S3Uploader {
@@ -50,7 +50,7 @@ class GithubDeployer extends S3Uploader {
       {
         repository: 'workzen',
         secretName: `${stack.toUpperCase()}_AWS_SECRET_ACCESS_KEY`,
-        encryptedValue: accessKey.secret,
+        plaintextValue: accessKey.secret,
       },
       {
         parent: this,
@@ -62,7 +62,7 @@ class GithubDeployer extends S3Uploader {
       {
         repository: 'workzen',
         secretName: `${stack.toUpperCase()}_AWS_ACCESS_KEY_ID`,
-        encryptedValue: accessKey.id,
+        plaintextValue: accessKey.id,
       },
       {
         parent: this,

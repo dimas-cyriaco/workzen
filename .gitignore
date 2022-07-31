@@ -44,3 +44,5 @@ apps/**/.cache
   
 # Pulumi
 /bin/
+.eslintcache
+TODO.md

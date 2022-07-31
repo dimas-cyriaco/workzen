@@ -27,6 +27,7 @@ specifiers:
   eslint: ^8.0.0
   eslint-config-prettier: 8.1.0
   eslint-plugin-import: 2.25.2
+  husky: ^8.0.0
   mime: ^3.0.0
   nx: ^14.4.2
   prettier: ^2.5.1
@@ -72,6 +73,7 @@ devDependencies:
   eslint: 8.20.0
   eslint-config-prettier: 8.1.0_eslint@8.20.0
   eslint-plugin-import: 2.25.2_xconv27bia2733zao6ipggqv2i
+  husky: 8.0.1
   nx: 14.4.3
   prettier: 2.7.1
   typescript: 4.6.4
@@ -10109,6 +10111,15 @@ packages:
         integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==,
       }
     engines: { node: '>=10.17.0' }
+    dev: true
+
+  /husky/8.0.1:
+    resolution:
+      {
+        integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==,
+      }
+    engines: { node: '>=14' }
+    hasBin: true
     dev: true
 
   /iconv-lite/0.4.24:

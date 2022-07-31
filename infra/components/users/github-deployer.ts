@@ -1,42 +1,43 @@
 import { iam, secretsmanager } from '@pulumi/aws'
 import * as github from '@pulumi/github'
-import {
-  ComponentResource,
-  ComponentResourceOptions,
-  Output,
-  all,
-} from '@pulumi/pulumi'
+import { Config, Output, all } from '@pulumi/pulumi'
 
-import S3UploaderUser from './S3UploaderUser'
+import S3Uploader from './s3-uploader'
 
-class GithubDeployer extends ComponentResource {
+interface GithubDeployerParams {
+  name: string
+}
+
+class GithubDeployer extends S3Uploader {
   secretAccessKey: Output<string>
   accessKeyId: Output<string>
 
-  constructor(name: string, opts: ComponentResourceOptions = {}) {
-    super('workzen:user:GithubDeployer', name, {}, opts)
-
-    const githubDeployUser = new S3UploaderUser('github-deploy-user', {
-      parent: this,
+  constructor({ name }: GithubDeployerParams) {
+    super({
+      type: 'workzen:user:GithubDeployer',
+      name,
     })
+
+    // let config = new Config();
+    // const pgpKey = config.require("pgpkey");
 
     const accessKey = new iam.AccessKey(
       'github-deploy-access-key',
-      { user: githubDeployUser.name },
+      { user: this.name },
       { parent: this }
     )
 
-    const secret = new secretsmanager.Secret(name)
-    new secretsmanager.SecretVersion(name, {
-      secretId: secret.id,
-      secretString: all([accessKey.id, accessKey.secret]).apply(
-        ([accessKeyId, secretAccessKey]) =>
-          JSON.stringify({
-            accessKeyId,
-            secretAccessKey,
-          })
-      ),
-    })
+    // const secret = new secretsmanager.Secret(name)
+    // new secretsmanager.SecretVersion(name, {
+    //   secretId: secret.id,
+    //   secretString: all([accessKey.id, accessKey.secret]).apply(
+    //     ([accessKeyId, secretAccessKey]) =>
+    //       JSON.stringify({
+    //         accessKeyId,
+    //         secretAccessKey,
+    //       })
+    //   ),
+    // })
 
     github.getActionsPublicKey({
       repository: 'workzen',

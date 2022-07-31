@@ -1,15 +1,18 @@
 import { iam } from '@pulumi/aws'
-import {
-  ComponentResource,
-  ComponentResourceOptions,
-  Output,
-} from '@pulumi/pulumi'
+import { ComponentResource, Output } from '@pulumi/pulumi'
 
-class S3UploaderUser extends ComponentResource {
+const defaultType = 'workzen:user:S3UploaderUser'
+
+interface S3UploaderUserParams {
+  type: string
+  name: string
+}
+
+class S3Uploader extends ComponentResource {
   name: Output<string>
 
-  constructor(name: string, opts: ComponentResourceOptions = {}) {
-    super('workzen:user:S3UploaderUser', name, {}, opts)
+  constructor({ type = defaultType, name }: S3UploaderUserParams) {
+    super(type, name, {}, {})
 
     const user = new iam.User(
       's3-uploader-user',
@@ -47,4 +50,4 @@ class S3UploaderUser extends ComponentResource {
   }
 }
 
-export default S3UploaderUser
+export default S3Uploader

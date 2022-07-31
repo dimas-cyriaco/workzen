@@ -1,18 +1,15 @@
 import * as aws from '@pulumi/aws'
 import { Bucket } from '@pulumi/aws/s3'
 import * as pulumi from '@pulumi/pulumi'
-import {
-  ComponentResource,
-  ComponentResourceOptions,
-  Input,
-  Output,
-} from '@pulumi/pulumi'
+import { ComponentResource, Input, Output } from '@pulumi/pulumi'
 import * as fs from 'fs'
 import * as mime from 'mime'
 import * as path from 'path'
 
 interface PublicWebBucketParams {
+  name: string
   sourceFolder?: string
+  type?: string
 }
 
 class PublicWebBucket extends ComponentResource {
@@ -22,12 +19,12 @@ class PublicWebBucket extends ComponentResource {
   id: Output<string>
   websiteEndpoint: Output<string>
 
-  constructor(
-    name: string,
-    params: PublicWebBucketParams = {},
-    opts: ComponentResourceOptions = {}
-  ) {
-    super('workzen:bucket:PublicWebBucket', name, {}, opts)
+  constructor({
+    name,
+    sourceFolder,
+    type = 'workzen:bucket:PublicWebBucket',
+  }: PublicWebBucketParams) {
+    super(type, name, {}, {})
 
     const bucket = new aws.s3.Bucket(
       'homepage-bucket',
@@ -67,8 +64,8 @@ class PublicWebBucket extends ComponentResource {
       }
     )
 
-    if (params.sourceFolder) {
-      uploadDirectory(params.sourceFolder, bucket)
+    if (sourceFolder) {
+      uploadDirectory(sourceFolder, bucket)
     }
 
     this.arn = bucket.arn

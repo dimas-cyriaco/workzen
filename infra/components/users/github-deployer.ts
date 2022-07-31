@@ -1,28 +1,26 @@
 import { iam, secretsmanager } from '@pulumi/aws'
 import * as github from '@pulumi/github'
-import {
-  ComponentResource,
-  ComponentResourceOptions,
-  Output,
-  all,
-} from '@pulumi/pulumi'
+import { Output, all } from '@pulumi/pulumi'
 
-import S3UploaderUser from './S3UploaderUser'
+import S3Uploader from './s3-uploader'
 
-class GithubDeployer extends ComponentResource {
+interface GithubDeployerParams {
+  name: string
+}
+
+class GithubDeployer extends S3Uploader {
   secretAccessKey: Output<string>
   accessKeyId: Output<string>
 
-  constructor(name: string, opts: ComponentResourceOptions = {}) {
-    super('workzen:user:GithubDeployer', name, {}, opts)
-
-    const githubDeployUser = new S3UploaderUser('github-deploy-user', {
-      parent: this,
+  constructor({ name }: GithubDeployerParams) {
+    super({
+      type: 'workzen:user:GithubDeployer',
+      name,
     })
 
     const accessKey = new iam.AccessKey(
       'github-deploy-access-key',
-      { user: githubDeployUser.name },
+      { user: this.name },
       { parent: this }
     )
 

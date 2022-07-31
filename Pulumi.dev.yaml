@@ -1,4 +1,6 @@
 config:
+  Workzen:pgpkey:
+    secure: AAABACa/h0PY43hXu2WHS3Feiff3Y9iMZLUFxNno7dFSYYPLmph4ABkyQ3yJIsM8n6dwffj3OJRCORt9jYT6xVX+CMvsqK1y
   aws-native:region: sa-east-1
   github:token:
     secure: AAABAAZEKDNgO5LOH83v9h5olVDw155Eu3oZy8TVax4A3rc6uEwSrLe1MjiHQ8n9/7hYhiF6ECasmtv5rwRpWCny3Mj8MB5d

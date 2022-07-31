@@ -1,8 +1,8 @@
-import * as pulumi from '@pulumi/pulumi'
 import * as github from '@pulumi/github'
+import * as pulumi from '@pulumi/pulumi'
 
-import GithubDeployer from './components/users/github-deployer'
 import ApplicationDeploymentBucket from './components/buckets/application-deployment'
+import GithubDeployer from './components/users/github-deployer'
 
 // TODO: verificar se stack é 'production' e não está sendo rodado do CI.
 
@@ -22,14 +22,11 @@ github.getActionsPublicKey({
   repository: 'workzen',
 })
 
-new github.ActionsSecret(
-  `${stack}-aws-region`,
-  {
-    repository: 'workzen',
-    secretName: `${stack.toUpperCase()}_AWS_REGION`,
-    plaintextValue: 'sa-east-1',
-  }
-)
+new github.ActionsSecret(`${stack}-aws-region`, {
+  repository: 'workzen',
+  secretName: `${stack.toUpperCase()}_AWS_REGION`,
+  plaintextValue: 'sa-east-1',
+})
 
 // if (isProd) {
 const githubDeployer = new GithubDeployer({ name: 'github-deploy-user' })

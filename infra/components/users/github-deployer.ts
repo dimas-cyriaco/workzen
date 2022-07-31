@@ -1,11 +1,11 @@
 import { iam } from '@pulumi/aws'
-import { Output, getStack } from '@pulumi/pulumi'
 import * as github from '@pulumi/github'
+import { Output, getStack } from '@pulumi/pulumi'
 
 import S3Uploader from './s3-uploader'
 
 interface GithubDeployerParams {
-  name: string,
+  name: string
 }
 
 class GithubDeployer extends S3Uploader {

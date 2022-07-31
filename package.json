@@ -51,7 +51,7 @@
     "ts-prune": "^0.10.3"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "*.{json,js,jsx,ts,tsx,css,md}": "prettier --write"
   }
 }

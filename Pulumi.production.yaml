@@ -1,6 +1,8 @@
 config:
+  Workzen:pgpkey:
+    secure: AAABAP7wl3hZyrfP5l78GFQuMGwhaZmzLXLHlGkbGLhuBsA8ajYHoe50ygwHPMUhRTpZNy2AOoBdqiMZmdXP+nvVKIZ6v476
   aws-native:region: sa-east-1
   aws:region: sa-east-1
   github:owner: dimas-cyriaco
   github:token:
-    secure: AAABAHAD44+IT1NDwCJlcHhdEEw1RqYHdKRL+fph9z0XF63edmg0hF6zr/U6KHqhrWcz7aoIcEHsileeIfk/jPmLaQVJgiXD
+    secure: AAABAOm/nI915GOHyi2XZW57OX1CLfkhmh3M9thQYB6dwV441p8i3VETG48iaEETvh7b968flnKUg91DQr9CbbE4jL3qOo/K

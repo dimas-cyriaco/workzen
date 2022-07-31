@@ -1,12 +1,10 @@
 import * as github from '@pulumi/github'
-import {
-  interpolate,
-} from '@pulumi/pulumi'
+import { interpolate } from '@pulumi/pulumi'
 
 import PublicWebBucket from './public-web'
 
 interface ApplicationDeploymentBucketParams {
-  name: string,
+  name: string
   applicationName: string
   sourceFolder?: string
 }
